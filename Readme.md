@@ -1,8 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Antonina Khisametdinova](https://up.htmlacademy.ru/javascript/33/user/619123).
-* Наставник: `Кексобот module4-task1`.
-
+* Наставник: `Кексобот`.
 
 ---
 
