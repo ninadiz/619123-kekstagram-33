@@ -1,4 +1,4 @@
-// Загружает все модули в index.html
+// Курс 33: Загружает все модули в index.html
 import './const.js';
 import './lorem-upsum-data.js';
 import './random-number-from-range.js';
