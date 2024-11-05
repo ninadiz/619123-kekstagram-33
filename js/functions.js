@@ -25,7 +25,7 @@ function isPalindrom (string) {
 
 isPalindrom('kayak');
 
-// 5.16. Функции возвращаются
+// Курс 33: 5.16. Функции возвращаются
 
 const getMinutes = function(stroke) {
   const array = stroke.split(':');
