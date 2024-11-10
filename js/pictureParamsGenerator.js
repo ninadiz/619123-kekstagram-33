@@ -35,5 +35,6 @@ const createImageParams = function(idIndex) {
 };
 
 // eslint-disable-next-line no-unused-vars
-const result = Array.from({length: IMAGE_LIST_LENGTH}, (__, idIndex) => createImageParams(idIndex + 1));
+const pictureParams = Array.from({length: IMAGE_LIST_LENGTH}, (__, idIndex) => createImageParams(idIndex + 1));
 
+console.log (pictureParams);
