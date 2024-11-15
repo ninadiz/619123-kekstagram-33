@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 import {IMAGE_LIST_LENGTH, LIKES_COUNT, COMMENTS_COUNT} from './const.js';
 import {descriptionExamples, messageExamples, commentatorNames} from './lorem-upsum-data.js';
 import {getRandomInteger} from './random-number-from-range.js';
@@ -34,7 +35,8 @@ const createImageParams = function(idIndex) {
   };
 };
 
-// eslint-disable-next-line no-unused-vars
-const pictureParams = Array.from({length: IMAGE_LIST_LENGTH}, (__, idIndex) => createImageParams(idIndex + 1));
+const pictureParams = Array.from({ length: IMAGE_LIST_LENGTH }, function(_, idIndex) {
+  return createImageParams(idIndex + 1);
+});
 
 export {pictureParams};

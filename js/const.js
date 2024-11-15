@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-const IMAGE_LIST_LENGTH = 25;
+const IMAGE_LIST_LENGTH = 26;
 
 const LIKES_COUNT = {
   min: 15,
