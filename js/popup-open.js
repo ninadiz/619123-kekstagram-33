@@ -1,20 +1,21 @@
 /* eslint-disable prefer-arrow-callback */
-import { picturesContainer } from './DOM-pictures';
-import { pictureParams } from './picture-params-generator.js';
+import {pictureParams} from './picture-params-generator.js';
+import {getRandomInteger} from './random-number-from-range.js';
 
 // Находим необходимые элементы
 const bigPicture = document.querySelector('.big-picture');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const userAvatar = bigPicture.querySelector('.social__picture');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
+const userAvatar = bigPicture.querySelector('.social__header .social__picture'); // ищем элемент social__picture внутри элемента с .social__header
 const bigPictureLikes = bigPicture.querySelector('.social__likes .likes-count');
 const commentsList = bigPicture.querySelector('.social__comments');
 const commentsShown = bigPicture.querySelector('.social__comment-shown-count');
 const commentsTotal = bigPicture.querySelector('.social__comment-total-count');
+const pictureThumbnailsLinks = document.querySelectorAll('.picture'); // Получаем все элементы с классом .picture__img в коллекции NodeList
 
-// Функция создания DOM-элемента для комментария
-function createComment(comment) {
+// Функция генерации DOM элементов для комментов
+function getComments(comment) {
   const newComment = document.createElement('li');
   newComment.classList.add('social__comment');
   const commentAvatar = document.createElement('img');
@@ -29,48 +30,39 @@ function createComment(comment) {
   return newComment;
 }
 
-// Функция создания списка комментов
-function insertComments() {
-  commentsList.innerHTML = ''; // очищаем список комментов
-  const pictureThumbnail = document.querySelector('.picture__img');
-  const pictureId = parseInt(pictureThumbnail.dataset.id, 10);
-  const pictureData = pictureParams[pictureId - 1];
-  if (!pictureData || !Array.isArray(pictureData.comments)) {
-    // eslint-disable-next-line no-console
-    console.error('Данные для комментариев не найдены');
-    return;
-  }
-  const commentsArray = pictureData.comments;
+// Функция открытия попапов
+function openPopup (evt, imageUrl, description, likesCount) {
+  const clickedPicture = evt.target; // Получаем  DOM элемент, на который кликнули - <img>
+  const clickedPictureId = parseInt(clickedPicture.dataset.id, 10);
+  bigPictureImg.src = imageUrl; // Устанавливаем путь к изображению
+  userAvatar.src = `img/avatar${getRandomInteger(1, 6)}.svg`; // Аватар пользователя
+  bigPictureDescription.textContent = description; // Подпись к изображению
+  bigPictureLikes.textContent = likesCount; // Количество лайков
+  bigPicture.classList.remove('hidden'); // Делаем оверлей видимым
+  commentsLoader.classList.add('hidden'); // Прячем ссылку загрузить еще
+  document.body.classList.add('modal-open'); // Убираем прокрутку контента когда попап открыт
+  // Вытягиваем комментарии из массива объектов pictureParams
+  commentsList.innerHTML = ''; // стираем исходник html
+  const commentsArray = pictureParams[clickedPictureId - 1].comments;
   commentsShown.textContent = commentsArray.length;
   commentsTotal.textContent = commentsArray.length;
+  // Запускаем генератор DOM элементов комментариев для каждого элемента массива
   commentsArray.forEach(function (comment) {
-    const commentElement = createComment(comment);
+    const commentElement = getComments(comment);
     commentsList.appendChild(commentElement);
   });
 }
 
-// Функция для открытия попапа
-function openPopup(imageUrl, description, likesCount) {
-  bigPictureImg.src = imageUrl;
-  userAvatar.src = imageUrl;
-  bigPictureDescription.textContent = description;
-  bigPictureLikes.textContent = likesCount;
-  insertComments();
-  bigPicture.classList.remove('hidden');
-  commentsLoader.classList.add('hidden');
-  document.body.classList.add('modal-open');
-}
-
-// Обработчик клика на миниатюру
-picturesContainer.addEventListener('click', function (evt) {
-  evt.preventDefault();
-  const pictureLink = evt.target.closest('.picture');
-  if (pictureLink) {
-    const imageUrl = pictureLink.querySelector('img').src;
-    const description = pictureLink.querySelector('img').alt;
-    const likesCount = pictureLink.querySelector('.picture__likes').textContent;
-    openPopup(imageUrl, description, likesCount);
-  }
+// Слушалка ссылок для каждого элемента в коллекции pictureThumbnailsLinks
+// thumbnail - это все найденные <a> c тегом .picture
+pictureThumbnailsLinks.forEach(function(thumbnail) {
+  thumbnail.addEventListener('click', function(evt) {
+    evt.preventDefault();
+    const imageUrl = thumbnail.querySelector('.picture__img').src;
+    const description = thumbnail.querySelector('.picture__img').alt;
+    const likesCount = thumbnail.querySelector('.picture__likes').textContent;
+    openPopup(evt, imageUrl, description, likesCount); // Вызываем функцию с этими параметрами
+  });
 });
 
-export { bigPicture };
+export {bigPicture};
