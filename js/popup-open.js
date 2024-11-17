@@ -1,7 +1,6 @@
 /* eslint-disable prefer-arrow-callback */
-import {picturesContainer} from './DOM-pictures';
-import {pictureParams} from './picture-params-generator.js';
-console.log(pictureParams);
+import { picturesContainer } from './DOM-pictures';
+import { pictureParams } from './picture-params-generator.js';
 
 // Находим необходимые элементы
 const bigPicture = document.querySelector('.big-picture');
@@ -14,46 +13,64 @@ const commentsList = bigPicture.querySelector('.social__comments');
 const commentsShown = bigPicture.querySelector('.social__comment-shown-count');
 const commentsTotal = bigPicture.querySelector('.social__comment-total-count');
 
-// Функция создания списка комментов в оверлее
-// Сначала нужно узнать, по какой фотке кликнули
+// Функция создания DOM-элемента для комментария
+function createComment(comment) {
+  const newComment = document.createElement('li');
+  newComment.classList.add('social__comment');
+  const commentAvatar = document.createElement('img');
+  commentAvatar.classList.add('social__picture');
+  commentAvatar.src = comment.avatar;
+  commentAvatar.alt = comment.name;
+  const commentText = document.createElement('p');
+  commentText.classList.add('social__text');
+  commentText.textContent = comment.message;
+  newComment.appendChild(commentAvatar);
+  newComment.appendChild(commentText);
+  return newComment;
+}
 
-// Функция для открытия полноэкранного просмотра
-function openFullScreenView(imageUrl, description, likesCount) {
-  // Изменяем содержимое
-  bigPictureImg.src = imageUrl; // Устанавливаем путь к изображению
-  userAvatar.src = imageUrl; // Аватар пользователя
-  bigPictureDescription.textContent = description; // Подпись к изображению
-  bigPictureLikes.textContent = likesCount; // Количество лайков
-  commentsShown.textContent = 2;
-  commentsTotal.textContent = 222;
-  // Cоздание списка комментов в оверлее
-  // Сначала нужно узнать, по какой фотке кликнули - параметр ImageId
+// Функция создания списка комментов
+function insertComments() {
+  commentsList.innerHTML = ''; // очищаем список комментов
+  const pictureThumbnail = document.querySelector('.picture__img');
+  const pictureId = parseInt(pictureThumbnail.dataset.id, 10);
+  const pictureData = pictureParams[pictureId - 1];
+  if (!pictureData || !Array.isArray(pictureData.comments)) {
+    // eslint-disable-next-line no-console
+    console.error('Данные для комментариев не найдены');
+    return;
+  }
+  const commentsArray = pictureData.comments;
+  commentsShown.textContent = commentsArray.length;
+  commentsTotal.textContent = commentsArray.length;
+  commentsArray.forEach(function (comment) {
+    const commentElement = createComment(comment);
+    commentsList.appendChild(commentElement);
+  });
+}
 
-  // Делаем оверлей видимым
+// Функция для открытия попапа
+function openPopup(imageUrl, description, likesCount) {
+  bigPictureImg.src = imageUrl;
+  userAvatar.src = imageUrl;
+  bigPictureDescription.textContent = description;
+  bigPictureLikes.textContent = likesCount;
+  insertComments();
   bigPicture.classList.remove('hidden');
-  // Прячем ссылку загрузить еще
   commentsLoader.classList.add('hidden');
-  //Убираем прокрутку контента когда попап открыт
   document.body.classList.add('modal-open');
 }
 
 // Обработчик клика на миниатюру
-picturesContainer.addEventListener('click', function(evt) {
-  // если элемент не найден, вернет null
-  // closest ищет родителя элемента (включая сам элемент) с этим тегом
+picturesContainer.addEventListener('click', function (evt) {
+  evt.preventDefault();
   const pictureLink = evt.target.closest('.picture');
-  // В JavaScript null, undefined, 0, NaN, пустая строка (""), или false, являются "ложными" (falsе)
-  // Условие if (pictureLink) станет if (false) и код не выполнится
   if (pictureLink) {
-    evt.preventDefault();
-    // Получаем данные изображения из DOM элементов
     const imageUrl = pictureLink.querySelector('img').src;
     const description = pictureLink.querySelector('img').alt;
     const likesCount = pictureLink.querySelector('.picture__likes').textContent;
-
-    // Вызываем функцию с этими параметрами
-    openFullScreenView(imageUrl, description, likesCount);
+    openPopup(imageUrl, description, likesCount);
   }
 });
 
-export {bigPicture};
+export { bigPicture };
