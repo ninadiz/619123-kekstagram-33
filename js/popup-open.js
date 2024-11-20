@@ -76,8 +76,7 @@ function loadMoreComments () {
   }
 }
 
-// Слушалка ссылок для каждого элемента в коллекции pictureThumbnailsLinks
-// thumbnail - это все найденные <a> c тегом .picture
+// Слушалка ссылок для каждого элемента в коллекции pictureThumbnailsLinks, thumbnail - это все найденные <a> c тегом .picture
 pictureThumbnailsLinks.forEach(function(thumbnail) {
   thumbnail.addEventListener('click', function(evt) {
     evt.preventDefault();
