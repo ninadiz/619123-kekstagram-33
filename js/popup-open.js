@@ -13,10 +13,12 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const userAvatar = bigPicture.querySelector('.social__header .social__picture'); // ищем элемент social__picture внутри элемента с .social__header
 const bigPictureLikes = bigPicture.querySelector('.social__likes .likes-count');
 const commentsList = bigPicture.querySelector('.social__comments');
+const commentsCounter = bigPicture.querySelector('.social__comment-count');
 const commentsShown = bigPicture.querySelector('.social__comment-shown-count');
 const commentsTotal = bigPicture.querySelector('.social__comment-total-count');
 const pictureThumbnailsLinks = document.querySelectorAll('.picture'); // Получаем все элементы с классом .picture__img в коллекции NodeList
 const dynamicCommentsList = bigPicture.getElementsByClassName('social__comment'); // создает динамическую коллекцию комментариев
+
 
 // Функция генерации DOM элементов для комментов
 function getComments(comment) {
@@ -48,16 +50,29 @@ function openPopup (evt, imageUrl, description, likesCount) {
   // Вытягиваем комментарии из массива объектов pictureParams
   commentsList.innerHTML = ''; // стираем исходник html
   const commentsArray = pictureParams[clickedPictureId - 1].comments;
-  commentsShown.textContent = SHOWN_COMMENTS_NUMBER;
   commentsTotal.textContent = commentsArray.length;
+  if (commentsArray.length <= SHOWN_COMMENTS_NUMBER) {
+    commentsShown.textContent = commentsArray.length;
+  } else {
+    commentsShown.textContent = SHOWN_COMMENTS_NUMBER;
+  }
   // Запускаем генератор DOM элементов комментариев для каждого элемента массива
   commentsArray.forEach(function (comment) {
     const commentElement = getComments(comment);
     commentsList.appendChild(commentElement);
   });
-  // Ищем каждый элемент списка комментов и скрываем их начиная со следующего после SHOWN_COMMENTS_NUMBER
-  for (let i = SHOWN_COMMENTS_NUMBER; i < dynamicCommentsList.length; i++) {
-    dynamicCommentsList[i].classList.add('hidden');
+  if (commentsArray.length <= SHOWN_COMMENTS_NUMBER) {
+    commentsCounter.classList.add('hidden');
+    loadMore.classList.add('hidden');
+  } else {
+    for (let i = SHOWN_COMMENTS_NUMBER; i < dynamicCommentsList.length; i++) {
+      dynamicCommentsList[i].classList.add('hidden');
+    }
+    commentsCounter.classList.remove('hidden');
+    loadMore.classList.remove('hidden');
+  }
+  if (commentsArray.length === 0) {
+    commentsList.classList.add('hidden');
   }
 }
 
@@ -68,11 +83,16 @@ loadMore.addEventListener('click', function () {
 });
 
 // Функция отображения следующих комментариев
+let currentIndex = SHOWN_COMMENTS_NUMBER;
 function loadMoreComments () {
   console.log('Комменты загрузились');
-
-  for (let i = SHOWN_COMMENTS_NUMBER; i < dynamicCommentsList.length; i++) {
-    dynamicCommentsList[i].classList.add('hidden');
+  // Показываем следующие SHOWN_COMMENTS_NUMBER комментариев
+  for (let i = currentIndex; i < currentIndex + SHOWN_COMMENTS_NUMBER && i < dynamicCommentsList.length; i++) {
+    dynamicCommentsList[i].classList.remove('hidden');
+  }
+  currentIndex += SHOWN_COMMENTS_NUMBER;
+  if (currentIndex >= dynamicCommentsList.length) {
+    loadMore.classList.add('hidden');
   }
 }
 
