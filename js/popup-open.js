@@ -78,14 +78,12 @@ function openPopup (evt, imageUrl, description, likesCount) {
 
 // Слушалка по клику на loadMore
 loadMore.addEventListener('click', function () {
-  console.log('Нажала загрузить еще');
   loadMoreComments ();
 });
 
 // Функция отображения следующих комментариев
 let currentIndex = SHOWN_COMMENTS_NUMBER;
 function loadMoreComments () {
-  console.log('Комменты загрузились');
   // Показываем следующие SHOWN_COMMENTS_NUMBER комментариев
   for (let i = currentIndex; i < currentIndex + SHOWN_COMMENTS_NUMBER && i < dynamicCommentsList.length; i++) {
     dynamicCommentsList[i].classList.remove('hidden');
