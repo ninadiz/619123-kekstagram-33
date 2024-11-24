@@ -14,11 +14,10 @@ const userAvatar = bigPicture.querySelector('.social__header .social__picture');
 const bigPictureLikes = bigPicture.querySelector('.social__likes .likes-count');
 const commentsList = bigPicture.querySelector('.social__comments');
 const commentsCounter = bigPicture.querySelector('.social__comment-count');
-const commentsShown = bigPicture.querySelector('.social__comment-shown-count');
+let commentsShown = bigPicture.querySelector('.social__comment-shown-count');
 const commentsTotal = bigPicture.querySelector('.social__comment-total-count');
 const pictureThumbnailsLinks = document.querySelectorAll('.picture'); // Получаем все элементы с классом .picture__img в коллекции NodeList
 const dynamicCommentsList = bigPicture.getElementsByClassName('social__comment'); // создает динамическую коллекцию комментариев
-
 
 // Функция генерации DOM элементов для комментов
 function getComments(comment) {
@@ -61,13 +60,16 @@ function openPopup (evt, imageUrl, description, likesCount) {
     const commentElement = getComments(comment);
     commentsList.appendChild(commentElement);
   });
+  // Условия вывода коментариев в зависимости от количества
   if (commentsArray.length <= SHOWN_COMMENTS_NUMBER) {
     commentsCounter.classList.add('hidden');
     loadMore.classList.add('hidden');
+    commentsList.classList.remove('hidden');
   } else {
     for (let i = SHOWN_COMMENTS_NUMBER; i < dynamicCommentsList.length; i++) {
       dynamicCommentsList[i].classList.add('hidden');
     }
+    commentsList.classList.remove('hidden');
     commentsCounter.classList.remove('hidden');
     loadMore.classList.remove('hidden');
   }
@@ -82,16 +84,19 @@ loadMore.addEventListener('click', function () {
 });
 
 // Функция отображения следующих комментариев
-let currentIndex = SHOWN_COMMENTS_NUMBER;
 function loadMoreComments () {
+  const hiddenCommentsList = document.querySelectorAll('.social__comment.hidden');
+  let shownNow = 0;
   // Показываем следующие SHOWN_COMMENTS_NUMBER комментариев
-  for (let i = currentIndex; i < currentIndex + SHOWN_COMMENTS_NUMBER && i < dynamicCommentsList.length; i++) {
-    dynamicCommentsList[i].classList.remove('hidden');
+  for (let i = 0; i < SHOWN_COMMENTS_NUMBER && i < hiddenCommentsList.length; i++) {
+    hiddenCommentsList[i].classList.remove('hidden');
+    shownNow++;
   }
-  currentIndex += SHOWN_COMMENTS_NUMBER;
-  if (currentIndex >= dynamicCommentsList.length) {
+  // Если скрытых комментов нет, скрываем кнопку load more
+  if (hiddenCommentsList.length <= SHOWN_COMMENTS_NUMBER) {
     loadMore.classList.add('hidden');
   }
+  commentsShown.textContent = (parseInt(commentsShown.textContent, 10) + shownNow).toString();
 }
 
 // Слушалка ссылок для каждого элемента в коллекции pictureThumbnailsLinks, thumbnail - это все найденные <a> c тегом .picture
