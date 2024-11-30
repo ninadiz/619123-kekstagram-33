@@ -1,9 +1,8 @@
 /* eslint-disable prefer-arrow-callback */
 import {pictureParams} from './picture-params-generator.js';
 
-// Находим темплейт в разметке и контейнер для вставки элементов
-const template = document.getElementById('picture');
-const picturesContainer = document.querySelector('.pictures');
+// Нашли темплейт в разметке и контейнер для вставки элементов
+import {template, picturesContainer} from './DOM-elements.js';
 
 // Создаем DocumentFragment, чтобы временно хранить все сгенерированные элементы (хранится в оперативной памяти)
 const fragment = document.createDocumentFragment();
@@ -35,5 +34,4 @@ for (const object of pictureParams) {
 }
 
 picturesContainer.appendChild(fragment); // Вставляем все элементы из fragment в контейнер .pictures
-
-export { picturesContainer};
+export {picturesContainer};
