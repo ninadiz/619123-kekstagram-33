@@ -1,15 +1,20 @@
 /* eslint-disable prefer-arrow-callback */
 import { uploadForm, uploadButton, hashtagInput } from './DOM-elements.js';
-import { HASHTAGS_MAX_AMOUNT } from './const';
+import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH } from './const';
 import { checkType, checkUnique, checkHashtagCount } from './validation-rules.js';
 
+const errorMessageConfig = {
+  classTo: 'img-upload__field-wrapper', // Блок с классом .img-upload__field-wrapper
+  errorTextParent: 'img-upload__field-wrapper', // Текст ошибки внутри того же блока
+  errorTextClass: 'img-upload__field-wrapper--error' // Класс для стилизации текста ошибки
+};
 
-const pristine = new Pristine(uploadForm);
+const pristine = new Pristine(uploadForm, errorMessageConfig, true);
 
 pristine.addValidator(
   hashtagInput,
   checkType,
-  'Хештеги должны начинаться с #, состоять из букв или цифр и быть не длиннее 20 символов'
+  `Хештеги должны начинаться с #, состоять из букв или цифр и быть не длиннее ${HASHTAGS_MAX_LENGTH} символов`
 );
 
 pristine.addValidator(

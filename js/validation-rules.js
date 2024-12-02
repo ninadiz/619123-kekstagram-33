@@ -1,11 +1,11 @@
 /* eslint-disable prefer-arrow-callback */
-import { HASHTAGS_MAX_AMOUNT } from './const';
+import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH } from './const';
 
 let hashtagsArray = [];
 
 function checkType (value) {
   hashtagsArray = value.trim().split(/\s+/);
-  const regex = /^#[A-Za-z0-9]{1,19}$/;
+  const regex = new RegExp(`^#[A-Za-z0-9А-Яа-я]{1,${HASHTAGS_MAX_LENGTH}}$`);
   return hashtagsArray.every((hashtag) => regex.test(hashtag));
 }
 
