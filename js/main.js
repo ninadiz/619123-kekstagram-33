@@ -9,4 +9,4 @@ import './popup-open.js';
 import './popup-close.js';
 import './upload-popup-open';
 import './DOM-elements.js';
-// import './form-upload-validation.js';
+import './form-upload-validation.js';

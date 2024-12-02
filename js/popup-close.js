@@ -1,24 +1,18 @@
 /* eslint-disable prefer-arrow-callback */
-import { closeButtons, bigPicture } from './DOM-elements.js';
-const uploadOverlay = document.querySelector('.img-upload__overlay');
+import { closeButtons, bigPicture, uploadOverlay } from './DOM-elements.js';
 
 // Функция закрытия попапа
 function closePopup(popup) {
-  console.log('Классы до добавления hidden:', popup.classList.toString());
   popup.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  console.log(uploadOverlay);
-  console.log('Классы после добавления hidden:', popup.classList.toString());
 }
 
 // Закрытие окна по клику на кнопку (иконку закрытия)
 closeButtons.forEach(function (closeButton) {
   closeButton.addEventListener('click', function () {
     if (!bigPicture.classList.contains('hidden')) {
-      console.log('Нажата кнопка крестик у биг пикчур ');
       closePopup(bigPicture);
     } else if (!uploadOverlay.classList.contains('hidden')) {
-      console.log('uploadOverlay открыт, закрываю...');
       closePopup(uploadOverlay);
     }
   });
@@ -34,3 +28,15 @@ document.addEventListener('keydown', function (evt) {
     }
   }
 });
+
+/*
+Обратите внимание, что при закрытии формы дополнительно необходимо сбрасывать значение поля
+выбора файла .img-upload__input. В принципе, всё будет работать, если при повторной попытке загрузить
+в поле другую фотографию. Но! Событие change не сработает, если пользователь попробует загрузить ту же
+фотографию, а значит окно с формой не отобразится, что будет нарушением техзадания.
+Значение других полей формы также нужно сбрасывать.
+
+Как отменить обработчик Esc при фокусе?
+Задача не имеет одного верного решения, однако намекнём
+на самый простой — использовать stopPropagation для события нажатия клавиш в поле при фокусе.
+*/

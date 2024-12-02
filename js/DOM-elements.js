@@ -19,6 +19,9 @@ export const dynamicCommentsList = bigPicture.getElementsByClassName('social__co
 export const closeButtons = document.querySelectorAll('.cancel');
 
 // Загрузчик картинок
-// export const uploadOverlay = document.querySelector('.img-upload__overlay');
-
+export const uploadOverlay = document.querySelector('.img-upload__overlay');
 export const uploadForm = document.querySelector('.img-upload__form');
+export const uploadButton = document.querySelector('.img-upload__submit');
+export const hashtagInput = document.querySelector('.text__hashtags');
+export const descriptionInput = document.querySelector('.text-description');
+export const wrapperError = document.querySelector('.img-upload__field-wrapper');

@@ -13,3 +13,5 @@ export const COMMENTS_COUNT = {
 };
 
 export const SHOWN_COMMENTS_NUMBER = 5;
+
+export const HASHTAGS_MAX_AMOUNT = 20;

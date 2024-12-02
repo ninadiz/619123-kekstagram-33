@@ -1,49 +1,30 @@
-/*
-const hashtagInput = document.querySelector('.text-hashtag');
-const descriptionInput = document.querySelector('.text-description');
+/* eslint-disable prefer-arrow-callback */
+import { uploadForm, uploadButton, hashtagInput } from './DOM-elements.js';
+import { validateHashtagInput } from './validation-rules.js';
 
-const pristineConfig = {
-  classTo: 'img-upload_field-wrapper',
-  errorTextParent: 'img-upload_field-wrapper',
-  errorTextclass: 'img-upload_field-wrapper--error'
+const errorMessageConfig = {
+  classTo: 'img-upload_field-wrapper', // Элемент с классом img-upload_field-wrapper получит дополнительный класс ошибки.
+  errorContainer: 'img-upload__field-wrapper', // Сообщение об ошибке будет добавлено внутри контейнера img-upload__field-wrapper.
+  errorTextClass: 'img-upload_field-wrapper--error' // Это сообщение об ошибке будет стилизовано с помощью класса img-upload_field-wrapper--error.
 };
 
-// validation rules
-function validateHashtagInput() {
-}
+const pristine = new Pristine(uploadForm, errorMessageConfig, true); // true: включает валидацию при изменении значений в полях формы (после ввода каждой буквы).
 
-function getHashtagErrorMessage() {
-}
+pristine.addValidator (hashtagInput, validateHashtagInput, 'Некорректный хэштег. Проверьте правила и количество хэштегов.');
 
-function validateCommentInput() {
-}
+uploadButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  console.log('Клик по кнопке отправки формы');
 
-function getCommentErrorMessage() {
-}
+  const isValid = pristine.validate(); // Запускаем валидацию
+  console.log('Результат валидации:', isValid); // Логируем результат
 
+  const errors = pristine.getErrors();
+  console.log('Ошибки:', errors); // Показываем какие ошибки были найдены
 
-const pristine = new Pristine(uploadForm, pristineConfig, false);
-
-// pristine.addValidator(element, validatorFunction, errorMessage, priority, halt);
-pristine.addValidator(
-  hashtagInput,
-  validateHashtagInput,
-  getHashtagErrorMessage);
-
-pristine.addValidator(
-  descriptionInput,
-  validateCommentInput,
-  getCommentErrorMessage);
-
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
   if (isValid) {
-    uploadForm.submit();
-    console.log('Можно отправлять');
+    alert('Форма отправлена успешно');
   } else {
-    console.log('Форма невалидна');
+    alert('Есть ошибки в форме');
   }
 });
-
-*/
