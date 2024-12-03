@@ -1,23 +1,26 @@
 /* eslint-disable prefer-arrow-callback */
 import {pictureParams} from './picture-params-generator.js';
 import {getRandomInteger} from './random-number-from-range.js';
+import {SHOWN_COMMENTS_NUMBER} from './const.js';
 
-//
-const SHOWN_COMMENTS_NUMBER = 5;
+// Находим необходимые DOM элементы
+import {
+  bigPicture,
+  loadMore,
+  bigPictureImg,
+  bigPictureDescription,
+  userAvatar,
+  bigPictureLikes,
+  commentsList,
+  commentsCounter,
+  commentsShown,
+  commentsTotal,
+  // pictureThumbnailsLinks,
+  dynamicCommentsList
+} from './DOM-elements.js';
 
-// Находим необходимые элементы
-const bigPicture = document.querySelector('.big-picture');
-const loadMore = bigPicture.querySelector('.comments-loader');
-const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const bigPictureDescription = bigPicture.querySelector('.social__caption');
-const userAvatar = bigPicture.querySelector('.social__header .social__picture'); // ищем элемент social__picture внутри элемента с .social__header
-const bigPictureLikes = bigPicture.querySelector('.social__likes .likes-count');
-const commentsList = bigPicture.querySelector('.social__comments');
-const commentsCounter = bigPicture.querySelector('.social__comment-count');
-let commentsShown = bigPicture.querySelector('.social__comment-shown-count');
-const commentsTotal = bigPicture.querySelector('.social__comment-total-count');
+// Почему если экспортировать эту коллекцию из DOM-elements - то код не работает?
 const pictureThumbnailsLinks = document.querySelectorAll('.picture'); // Получаем все элементы с классом .picture__img в коллекции NodeList
-const dynamicCommentsList = bigPicture.getElementsByClassName('social__comment'); // создает динамическую коллекцию комментариев
 
 // Функция генерации DOM элементов для комментов
 function getComments(comment) {
@@ -109,5 +112,3 @@ pictureThumbnailsLinks.forEach(function(thumbnail) {
     openPopup(evt, imageUrl, description, likesCount); // Вызываем функцию с этими параметрами
   });
 });
-
-export {bigPicture};
