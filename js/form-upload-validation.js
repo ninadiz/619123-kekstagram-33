@@ -1,7 +1,8 @@
+/* eslint-disable no-alert */
 /* eslint-disable prefer-arrow-callback */
-import { uploadForm, uploadButton, hashtagInput } from './DOM-elements.js';
-import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH } from './const';
-import { checkType, checkUnique, checkHashtagCount } from './validation-rules.js';
+import { uploadForm, uploadButton, hashtagInput, descriptionInput } from './DOM-elements.js';
+import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH, DESCRIPTION_MAX_LENGTH } from './const';
+import { checkType, checkUnique, checkHashtagCount, checkDescriptionLength } from './validation-rules.js';
 
 const errorMessageConfig = {
   classTo: 'img-upload__field-wrapper', // Блок с классом .img-upload__field-wrapper
@@ -29,16 +30,19 @@ pristine.addValidator(
   `Хештегов слишком много, их не должно быть больше ${HASHTAGS_MAX_AMOUNT}`
 );
 
+pristine.addValidator(
+  descriptionInput,
+  checkDescriptionLength,
+  `В комментарии не должно быть больше ${DESCRIPTION_MAX_LENGTH} символов`
+);
+
 uploadButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  console.log('Клик по кнопке отправки формы');
-
   const isEmpty = hashtagInput.value.trim() === ''; // Проверяем, что поле пустое
   if (isEmpty) {
     alert('Форма отправлена успешно'); // Если поле пустое, сразу считаем его валидным и отправляем форму
   } else {
     const isValid = pristine.validate(); // Если поле не пустое, запускаем валидацию
-    console.log('Результат валидации:', isValid);
     if (isValid) {
       alert('Форма отправлена успешно');
     } else {

@@ -1,9 +1,7 @@
 /* eslint-disable prefer-arrow-callback */
-import {uploadForm} from './DOM-elements.js';
+import { uploadInput, uploadOverlay } from './DOM-elements.js';
 
-const uploadOverlay = document.querySelector('.img-upload__overlay');
-
-uploadForm.addEventListener('click', function(evt) {
+uploadInput.addEventListener('change', function(evt) {
   evt.preventDefault();
   uploadOverlay.classList.remove('hidden');
 });

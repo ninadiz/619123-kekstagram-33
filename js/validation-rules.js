@@ -1,5 +1,5 @@
 /* eslint-disable prefer-arrow-callback */
-import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH } from './const';
+import { HASHTAGS_MAX_AMOUNT, HASHTAGS_MAX_LENGTH, DESCRIPTION_MAX_LENGTH } from './const';
 
 let hashtagsArray = [];
 
@@ -21,4 +21,8 @@ function checkHashtagCount (value) {
   return hashtagsArray.length < HASHTAGS_MAX_AMOUNT;
 }
 
-export { checkType, checkUnique, checkHashtagCount };
+function checkDescriptionLength(value) {
+  return value.length <= DESCRIPTION_MAX_LENGTH;
+}
+
+export { checkType, checkUnique, checkHashtagCount, checkDescriptionLength};

@@ -16,3 +16,4 @@ export const SHOWN_COMMENTS_NUMBER = 5;
 
 export const HASHTAGS_MAX_AMOUNT = 20;
 export const HASHTAGS_MAX_LENGTH = 20;
+export const DESCRIPTION_MAX_LENGTH = 140;
