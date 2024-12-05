@@ -26,3 +26,17 @@ export const uploadButton = document.querySelector('.img-upload__submit');
 export const hashtagInput = document.querySelector('.text__hashtags');
 export const descriptionInput = document.querySelector('.text__description');
 export const wrapperError = document.querySelector('.img-upload__field-wrapper');
+
+// Масштаб картинки
+export const scaleSmaller = document.querySelector('.scale__control--smaller');
+export const scaleBigger = document.querySelector('.scale__control--bigger');
+export const scaleValue = document.querySelector('.scale__control--value');
+export const picturePreview = document.querySelector('.img-upload__preview');
+
+// Эффекты картинки
+export const effectNone = document.querySelector('.effects__preview--none');
+export const effectChrome = document.querySelector('.effects__preview--chrome');
+export const effectSepia = document.querySelector('.effects__preview--sepia');
+export const effectMarvin = document.querySelector('.effects__preview--marvin');
+export const effectPhobos = document.querySelector('.effects__preview--phobos');
+export const effectHeat = document.querySelector('.effects__preview--heat');
