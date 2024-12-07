@@ -53,9 +53,6 @@ const effectsMap = {
   original: () => '' // Для оригинала удаляется фильтр
 };
 
-console.log(effectItems.length);
-console.log(effectItems);
-
 // Слушалка изменений в слайдере - срабатывает в том числе при запуске страницы
 sliderElement.noUiSlider.on('update', () => {
   sliderInput.value = parseFloat(sliderElement.noUiSlider.get()).toFixed(1); // Обновляем значение в input с точностью до 1 знака
@@ -72,7 +69,6 @@ effectItems.forEach(function(effectTypeElement) {
   effectTypeElement.addEventListener('click', function() {
     const radioInput = effectTypeElement.querySelector('input[type="radio"]'); // Находим вложенный input внутри текущего элемента
     const effectType = radioInput.value; // Получаем значение effectType этого input
-    console.log(radioInput.value);
     if (radioInput.value !== 'none') {
       sliderContainer.classList.remove('hidden');
       const { start, step, min, max } = effectSliderParams[effectType];
