@@ -26,3 +26,11 @@ export const uploadButton = document.querySelector('.img-upload__submit');
 export const hashtagInput = document.querySelector('.text__hashtags');
 export const descriptionInput = document.querySelector('.text__description');
 export const wrapperError = document.querySelector('.img-upload__field-wrapper');
+
+// Масштаб картинки
+export const scaleSmaller = document.querySelector('.scale__control--smaller');
+export const scaleBigger = document.querySelector('.scale__control--bigger');
+export const scaleValue = document.querySelector('.scale__control--value');
+export const picturePreview = document.querySelector('.img-upload__preview');
+
+// Эффекты картинки
