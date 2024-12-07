@@ -5,12 +5,13 @@ let scale = 100;
 
 function updateScale() {
   scaleValue.value = `${scale}%`;
-  picturePreview.style.transform = `scale(${scale / 100})`;
+  const image = picturePreview.querySelector('img');
+  image.style.transform = `scale(${scale / 100})`;
   // запись значения для отправки на сервер
 }
 
 scaleSmaller.addEventListener('click', () => {
-  if (scale > 10) {
+  if (scale > 25) {
     scale -= SCALE_STEP;
     updateScale();
   }

@@ -12,3 +12,6 @@ import './upload-popup-open';
 import './form-upload-validation.js';
 import './validation-rules.js';
 import './picture-scale.js';
+import './picture-effects.js';
+
+
