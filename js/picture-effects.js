@@ -3,7 +3,7 @@ const picturePreview = document.querySelector('.img-upload__preview img');
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const sliderInput = document.querySelector('.effect-level__value');
-const effectItems = document.querySelectorAll('.effects__item'); // каждый li списка фильтров
+const effectItemsInputs = document.querySelectorAll('.effects__item input'); // ищем инпуты в li с классом .effects__item
 
 sliderContainer.classList.add('hidden');
 
@@ -64,20 +64,19 @@ sliderElement.noUiSlider.on('update', () => {
   }
 });
 
-// Слушалка для каждого элемента списка фильтров
-effectItems.forEach(function(effectTypeElement) {
-  effectTypeElement.addEventListener('click', function() {
-    const radioInput = effectTypeElement.querySelector('input[type="radio"]'); // Находим вложенный input внутри текущего элемента
-    const effectType = radioInput.value; // Получаем значение effectType этого input
-    if (radioInput.value !== 'none') {
-      sliderContainer.classList.remove('hidden');
-      const { start, step, min, max } = effectSliderParams[effectType];
+effectItemsInputs.forEach(function(input) { // Каждый input из effectItemsInputs
+  input.addEventListener('click', function() {
+    const effectType = input.value; // Получаем значение effectType из текущего input
+
+    if (effectType !== 'none') {
+      sliderContainer.classList.remove('hidden'); // Показываем слайдер
+      const { start, step, min, max } = effectSliderParams[effectType]; // Получаем параметры слайдера для этого эффекта
       setSliderParams(start, step, min, max); // Обновляем параметры слайдера
       sliderElement.noUiSlider.set(start); // Устанавливаем начальное значение слайдера
       sliderInput.value = start; // Обновляем значение input слайдера
-      picturePreview.style.filter = effectsMap[effectType](start); // Применяем фильтр с дефолтным(стартовым) значением слайдера
+      picturePreview.style.filter = effectsMap[effectType](start); // Применяем фильтр с дефолтным значением слайдера
     } else {
-      sliderContainer.classList.add('hidden');
+      sliderContainer.classList.add('hidden'); // Скрываем слайдер, если выбран фильтр "none"
     }
   });
 });
